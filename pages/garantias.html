@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Modelos de Garantia</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <!-- SIDEBAR -->
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+
+        <ul class="menu">
+          <li><a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+          <li><a href="cadastrar-clientes.html">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+          <li><a href="produtos.html">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+          <li><a href="servicos.html">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+          <li><a href="vendas.html">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+          <li><a href="ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+          <li><a href="garantias.html" class="active">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">Cobrança</span>
+            <span class="menu-tooltip">Cobrança</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            Modelos de Garantia
+            <div class="breadcrumb">
+              <span>Políticas & Regras</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong>V1ctor Gomes</strong></span>
+          <div class="user-avatar">VG</div>
+        </div>
+      </header>
+
+      <main class="content fade-in">
+        <!-- HEADER -->
+        <div class="page-header slide-in">
+          <h1>Cadastro de Garantias</h1>
+          <div class="page-actions">
+            <button class="btn" onclick="exportarGarantias()">
+              <span>📤</span> Exportar
+            </button>
+            <button class="btn btn-primary" onclick="limparFormulario()">
+              <span>🆕</span> Nova Garantia
+            </button>
+          </div>
+        </div>
+
+        <!-- FORM + STATS -->
+        <div class="warranty-form-container">
+          <!-- FORM -->
+          <section class="form-panel slide-in">
+            <div class="form-panel-header">
+              <h2>Dados do Modelo</h2>
+            </div>
+
+            <form id="garantiaForm" onsubmit="salvarGarantia(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="nome">Nome do Modelo</label>
+                  <input type="text" id="nome" class="form-input" placeholder="Ex: Garantia Padrão 90 dias" required>
+                  <div class="hint">Dica: use um nome que faça sentido para equipe e cliente.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label required" for="dispositivo">Tipo de Dispositivo</label>
+                  <select id="dispositivo" class="form-input form-select" required>
+                    <option value="">Selecione...</option>
+                    <option value="celular">📱 Celular</option>
+                    <option value="tablet">📲 Tablet</option>
+                    <option value="notebook">💻 Notebook</option>
+                    <option value="pc">🖥️ Computador</option>
+                    <option value="tv">📺 TV</option>
+                    <option value="videogame">🎮 Videogame</option>
+                    <option value="som">🔊 Som/Áudio</option>
+                    <option value="outros">🧩 Outros</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="prazoDias">Prazo (em dias)</label>
+                  <input type="number" id="prazoDias" class="form-input" placeholder="Ex: 90" min="0" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label required" for="status">Status</label>
+                  <select id="status" class="form-input form-select" required>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="cobertura">Cobertura (o que está incluso)</label>
+                <textarea id="cobertura" class="form-input form-textarea" placeholder="Descreva a cobertura da garantia..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="exclusoes">Exclusões (o que não cobre)</label>
+                <textarea id="exclusoes" class="form-input form-textarea" placeholder="Ex: mau uso, oxidação, tela trincada..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="condicoes">Condições / Procedimento</label>
+                <textarea id="condicoes" class="form-input form-textarea" placeholder="Ex: apresentar NF/OS, lacres intactos, prazo de análise..."></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-danger" onclick="limparFormulario()">
+                  <span>🗑️</span> Limpar
+                </button>
+                <button type="submit" class="btn btn-success">
+                  <span>💾</span> Salvar Garantia
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- STATS -->
+          <aside class="stats-panel slide-in">
+            <div class="stats-panel-header">
+              <h3>Estatísticas das Garantias</h3>
+            </div>
+
+            <div class="stats-main-grid">
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);">🛡️</div>
+                <div class="stat-main-value" id="totalGarantias">0</div>
+                <div class="stat-main-label">Modelos</div>
+              </div>
+
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);">✅</div>
+                <div class="stat-main-value" id="garantiasAtivas">0</div>
+                <div class="stat-main-label">Ativas</div>
+              </div>
+
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);">⏱️</div>
+                <div class="stat-main-value" id="prazoMedio">0</div>
+                <div class="stat-main-label">Prazo Médio (dias)</div>
+              </div>
+
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--purple) 0%, #a78bfa 100%);">🏷️</div>
+                <div class="stat-main-value" id="tipoMaisComum">-</div>
+                <div class="stat-main-label">Tipo + comum</div>
+              </div>
+            </div>
+
+            <div class="distribution-chart">
+              <div class="distribution-title">
+                <span>Distribuição por Status</span>
+                <span id="percentAtivas">0%</span>
+              </div>
+
+              <div class="distribution-bars">
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Ativas</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barAtivas" style="background: linear-gradient(90deg, var(--success) 0%, #34d399 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="valAtivas">0</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Inativas</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barInativas" style="background: linear-gradient(90deg, var(--danger) 0%, #f87171 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="valInativas">0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="recent-activities">
+              <div class="activities-title">Atividades Recentes</div>
+              <div class="activities-list" id="atividadesLista"></div>
+            </div>
+
+            <div class="quick-tips">
+              <div class="tips-title">Dicas Rápidas</div>
+              <div class="tips-list">
+                <div class="tip-item">Crie modelos separados por dispositivo e por tipo de serviço (tela/bateria/placa).</div>
+                <div class="tip-item">Padronize exclusões para reduzir conflitos com cliente.</div>
+                <div class="tip-item">Use “Inativo” para políticas antigas sem apagar histórico.</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- TABLE -->
+        <section class="models-panel slide-in">
+          <div class="models-panel-header">
+            <h2>Modelos Cadastrados</h2>
+            <div class="search-container">
+              <input type="text" class="search-input" placeholder="Buscar por nome, tipo, prazo..." id="buscarGarantia" onkeyup="filtrarGarantias()">
+              <button class="btn" onclick="filtrarGarantias()">
+                <span>🔍</span> Buscar
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="models-table" id="tabelaGarantias">
+              <thead>
+                <tr>
+                  <th>Modelo</th>
+                  <th>Dispositivo</th>
+                  <th>Prazo</th>
+                  <th>Status</th>
+                  <th>Resumo</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="garantiasLista"></tbody>
+            </table>
+          </div>
+
+          <div id="semGarantias" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">🛡️</div>
+            <h3>Nenhuma garantia cadastrada</h3>
+            <p>Cadastre seu primeiro modelo de garantia usando o formulário acima.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMAÇÃO -->
+  <div class="modal-backdrop" id="modalConfirmacao">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Confirmação</h3>
+        <button class="modal-close" onclick="fecharModal()">×</button>
+      </div>
+      <div class="modal-body" id="modalCorpo"></div>
+      <div style="display:flex; justify-content:flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarAcao" onclick="confirmarAcao()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHES -->
+  <div class="modal-backdrop" id="modalDetalhes">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalDetalhesTitulo">Detalhes do Modelo</h3>
+        <button class="modal-close" onclick="fecharModalDetalhes()">×</button>
+      </div>
+      <div class="modal-body" id="modalDetalhesCorpo"></div>
+      <div style="display:flex; justify-content:center; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn btn-primary" onclick="fecharModalDetalhes()">
+          <span>✅</span> OK
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

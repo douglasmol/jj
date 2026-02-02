@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Gestão de Produtos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <!-- SIDEBAR RECOLHÍVEL -->
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+        <ul class="menu">
+          <li><a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+          <li><a href="cadastrar-clientes.html">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+          <li><a href="produtos.html" class="active">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+          <li><a href="servicos.html">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+          <li><a href="ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">Cobrança</span>
+            <span class="menu-tooltip">Cobrança</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            Gestão de Produtos
+            <div class="breadcrumb">
+              <span>Controle de Estoque</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong>V1ctor Gomes</strong></span>
+          <div class="user-avatar">VG</div>
+        </div>
+      </header>
+
+      <main class="content fade-in">
+        <!-- CABEÇALHO DA PÁGINA -->
+        <div class="products-header slide-in">
+          <h1>Gestão de Produtos</h1>
+          <div class="products-actions">
+            <button class="btn" onclick="exportarProdutos()">
+              <span>📤</span> Exportar
+            </button>
+            <button class="btn btn-warning" onclick="gerarRelatorioEstoque()">
+              <span>📊</span> Relatório
+            </button>
+            <button class="btn btn-primary" onclick="limparFormulario()">
+              <span>🆕</span> Novo Produto
+            </button>
+          </div>
+        </div>
+
+        <!-- FORMULÁRIO E ESTATÍSTICAS -->
+        <div class="products-form-container">
+          <!-- FORMULÁRIO PRINCIPAL -->
+          <section class="form-panel slide-in">
+            <div class="form-panel-header">
+              <h2>Dados do Produto</h2>
+            </div>
+            
+            <form id="produtoForm" onsubmit="salvarProduto(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="nome">Nome do Produto</label>
+                  <input type="text" id="nome" class="form-input" placeholder="Ex: iPhone 14 Pro 256GB" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="codigo">Código SKU</label>
+                  <input type="text" id="codigo" class="form-input" placeholder="Ex: APP-IP14P-256" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="categoria">Categoria</label>
+                  <select id="categoria" class="form-input form-select">
+                    <option value="">Selecione...</option>
+                    <option value="smartphone">Smartphone</option>
+                    <option value="notebook">Notebook</option>
+                    <option value="tablet">Tablet</option>
+                    <option value="acessorios">Acessórios</option>
+                    <option value="pecas">Peças</option>
+                    <option value="perifericos">Periféricos</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="marca">Marca</label>
+                  <input type="text" id="marca" class="form-input" placeholder="Ex: Apple, Samsung, Dell">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="preco_custo">Preço de Custo</label>
+                  <div class="price-input-container">
+                    <span class="price-prefix">R$</span>
+                    <input type="number" id="preco_custo" class="form-input price-input" placeholder="0.00" step="0.01" min="0" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="preco_venda">Preço de Venda</label>
+                  <div class="price-input-container">
+                    <span class="price-prefix">R$</span>
+                    <input type="number" id="preco_venda" class="form-input price-input" placeholder="0.00" step="0.01" min="0" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="estoque_atual">Estoque Atual</label>
+                  <input type="number" id="estoque_atual" class="form-input" placeholder="0" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="estoque_minimo">Estoque Mínimo</label>
+                  <input type="number" id="estoque_minimo" class="form-input" placeholder="5" min="0">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="fornecedor">Fornecedor</label>
+                <input type="text" id="fornecedor" class="form-input" placeholder="Nome do fornecedor">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="tags">Tags/Categorias</label>
+                <div class="categories-tags">
+                  <span class="category-tag" onclick="toggleTag(this)">Smartphone</span>
+                  <span class="category-tag" onclick="toggleTag(this)">Apple</span>
+                  <span class="category-tag" onclick="toggleTag(this)">Premium</span>
+                  <span class="category-tag" onclick="toggleTag(this)">Novo</span>
+                  <span class="category-tag" onclick="toggleTag(this)">Promoção</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="descricao">Descrição</label>
+                <textarea id="descricao" class="form-input form-textarea" placeholder="Descrição detalhada do produto..."></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="status">Status</label>
+                  <select id="status" class="form-input form-select" required>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                    <option value="esgotado">Esgotado</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="localizacao">Localização</label>
+                  <input type="text" id="localizacao" class="form-input" placeholder="Ex: Prateleira A3">
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-danger" onclick="limparFormulario()">
+                  <span>🗑️</span> Limpar
+                </button>
+                <button type="submit" class="btn btn-success">
+                  <span>💾</span> Salvar Produto
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- PAINEL DE ESTATÍSTICAS DE PRODUTOS -->
+          <aside class="stats-panel slide-in">
+            <div class="stats-panel-header">
+              <h3>📊 Estatísticas do Estoque</h3>
+            </div>
+            
+            <!-- Estatísticas principais -->
+            <div class="stats-main-grid">
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);">📦</div>
+                <div class="stat-main-value" id="totalProdutos">0</div>
+                <div class="stat-main-label">Total Produtos</div>
+              </div>
+              
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);">✅</div>
+                <div class="stat-main-value" id="produtosAtivos">0</div>
+                <div class="stat-main-label">Produtos Ativos</div>
+              </div>
+              
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);">⚠️</div>
+                <div class="stat-main-value" id="produtosBaixos">0</div>
+                <div class="stat-main-label">Estoque Baixo</div>
+              </div>
+              
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--purple) 0%, #a78bfa 100%);">💰</div>
+                <div class="stat-main-value" id="valorEstoque">R$ 0.00</div>
+                <div class="stat-main-label">Valor Estoque</div>
+              </div>
+            </div>
+            
+            <!-- Gráfico de estoque -->
+            <div class="stock-chart">
+              <div class="stock-title">
+                <span>Status do Estoque</span>
+                <span id="percentEstoqueOk">0%</span>
+              </div>
+              <div class="stock-bars">
+                <div class="stock-bar">
+                  <span class="stock-bar-label">Estoque OK</span>
+                  <div class="stock-bar-container">
+                    <div class="stock-bar-fill" id="barEstoqueOk" style="background: linear-gradient(90deg, var(--success) 0%, #34d399 100%); width: 0%;">
+                      <span class="stock-bar-value" id="barEstoqueOkValue">0</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="stock-bar">
+                  <span class="stock-bar-label">Estoque Baixo</span>
+                  <div class="stock-bar-container">
+                    <div class="stock-bar-fill" id="barEstoqueBaixo" style="background: linear-gradient(90deg, var(--warning) 0%, #fbbf24 100%); width: 0%;">
+                      <span class="stock-bar-value" id="barEstoqueBaixoValue">0</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="stock-bar">
+                  <span class="stock-bar-label">Esgotado</span>
+                  <div class="stock-bar-container">
+                    <div class="stock-bar-fill" id="barEsgotado" style="background: linear-gradient(90deg, var(--danger) 0%, #f87171 100%); width: 0%;">
+                      <span class="stock-bar-value" id="barEsgotadoValue">0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Estatísticas Adicionais -->
+            <div class="additional-stats">
+              <div class="additional-stats-title">Métricas Financeiras</div>
+              <div class="additional-stats-grid">
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="lucroMedio">0%</div>
+                  <div class="additional-stat-label">Lucro Médio</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="giroEstoque">-</div>
+                  <div class="additional-stat-label">Giro Anual</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="topCategoria">-</div>
+                  <div class="additional-stat-label">Categoria Top</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="novosProdutos">0</div>
+                  <div class="additional-stat-label">Novos (30 dias)</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Alertas de Estoque (gerados via JS) -->
+            <div class="stock-alerts">
+              <div class="alerts-title">
+                <span>Alertas de Estoque</span>
+                <span class="alert-action" onclick="verTodosAlertas()">Ver Todos</span>
+              </div>
+              <div class="alerts-list" id="alertsList">
+                <!-- Gerado via JavaScript -->
+              </div>
+            </div>
+            
+            <!-- Categorias Populares (geradas via JS) -->
+            <div class="popular-categories">
+              <div class="categories-title">Categorias Mais Comuns</div>
+              <div class="categories-list" id="categoriesList">
+                <!-- Gerado via JavaScript -->
+              </div>
+            </div>
+            
+            <!-- Dicas Rápidas -->
+            <div class="quick-tips">
+              <div class="tips-title">Dicas Rápidas</div>
+              <div class="tips-list">
+                <div class="tip-item">Defina estoque mínimo para alertas automáticos</div>
+                <div class="tip-item">Atualize preços regularmente para manter margem</div>
+                <div class="tip-item">Use tags para facilitar buscas e filtros</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- LISTA DE PRODUTOS -->
+        <section class="products-panel slide-in">
+          <div class="products-panel-header">
+            <h2>Produtos Cadastrados</h2>
+            <div class="search-container">
+              <input type="text" class="search-input" placeholder="Buscar produto..." id="buscarProduto" onkeyup="filtrarProdutos()">
+              <button class="btn" onclick="filtrarProdutos()">
+                <span>🔍</span> Buscar
+              </button>
+            </div>
+          </div>
+          
+          <div class="table-container">
+            <table class="products-table" id="tabelaProdutos">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Código</th>
+                  <th>Categoria</th>
+                  <th>Estoque</th>
+                  <th>Preço</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="produtosLista">
+                <!-- Os produtos serão carregados aqui via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="semProdutos" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">📦</div>
+            <h3>Nenhum produto cadastrado</h3>
+            <p>Comece cadastrando seu primeiro produto usando o formulário acima.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMAÇÃO -->
+  <div class="modal-backdrop" id="modalConfirmacao">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Confirmação</h3>
+        <button class="modal-close" onclick="fecharModal()">×</button>
+      </div>
+      <div class="modal-body" id="modalCorpo"></div>
+      <div style="display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarAcao" onclick="confirmarAcao()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHES DO PRODUTO -->
+  <div class="modal-backdrop" id="modalDetalhes">
+    <div class="modal" style="width: 600px;">
+      <div class="modal-header">
+        <h3 id="modalDetalhesTitulo">Detalhes do Produto</h3>
+        <button class="modal-close" onclick="fecharModalDetalhes()">×</button>
+      </div>
+      <div class="modal-body" id="modalDetalhesCorpo"></div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

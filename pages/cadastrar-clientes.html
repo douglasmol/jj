@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Cadastro de Clientes</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <!-- SIDEBAR RECOLHÍVEL -->
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+        <ul class="menu">
+          <li><a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+          <li><a href="cadastrar-clientes.html" class="active">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+          <li><a href="produtos.html">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+          <li><a href="servicos.html">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+          <li><a href="ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">Cobrança</span>
+            <span class="menu-tooltip">Cobrança</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            Cadastro de Clientes
+            <div class="breadcrumb">
+              <span>Gestão de Clientes</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong>V1ctor Gomes</strong></span>
+          <div class="user-avatar">VG</div>
+        </div>
+      </header>
+
+      <main class="content fade-in">
+        <div class="client-header slide-in">
+          <h1>Cadastro de Clientes</h1>
+          <div class="client-actions">
+            <button class="btn" onclick="exportarClientes()">
+              <span>📤</span> Exportar
+            </button>
+            <button class="btn btn-primary" onclick="limparFormulario()">
+              <span>🆕</span> Novo Cliente
+            </button>
+          </div>
+        </div>
+
+        <div class="client-form-container">
+          <section class="form-panel slide-in">
+            <div class="form-panel-header">
+              <h2>Dados do Cliente</h2>
+            </div>
+
+            <form id="clienteForm" onsubmit="salvarCliente(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="nome">Nome Completo</label>
+                  <input type="text" id="nome" class="form-input" placeholder="Digite o nome completo" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label required" for="cpf_cnpj">CPF/CNPJ</label>
+                  <input type="text" id="cpf_cnpj" class="form-input" placeholder="000.000.000-00 ou 00.000.000/0000-00" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="email">E-mail</label>
+                  <input type="email" id="email" class="form-input" placeholder="cliente@email.com" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label required" for="telefone">Telefone</label>
+                  <input type="tel" id="telefone" class="form-input" placeholder="(11) 99999-9999" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="endereco">Endereço</label>
+                <input type="text" id="endereco" class="form-input" placeholder="Rua, Número, Bairro">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="cidade">Cidade</label>
+                  <input type="text" id="cidade" class="form-input" placeholder="Cidade">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="estado">Estado</label>
+                  <select id="estado" class="form-input form-select">
+                    <option value="">Selecione...</option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="observacoes">Observações</label>
+                <textarea id="observacoes" class="form-input form-textarea" placeholder="Informações adicionais sobre o cliente..."></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="tipo">Tipo de Cliente</label>
+                  <select id="tipo" class="form-input form-select" required>
+                    <option value="">Selecione...</option>
+                    <option value="PF">Pessoa Física</option>
+                    <option value="PJ">Pessoa Jurídica</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label required" for="status">Status</label>
+                  <select id="status" class="form-input form-select" required>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-danger" onclick="limparFormulario()">
+                  <span>🗑️</span> Limpar
+                </button>
+                <button type="submit" class="btn btn-success">
+                  <span>💾</span> Salvar Cliente
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <aside class="stats-panel slide-in">
+            <div class="stats-panel-header">
+              <h3>📊 Estatísticas</h3>
+            </div>
+
+            <div class="stats-main-grid">
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);">👥</div>
+                <div class="stat-main-value" id="totalClientes">0</div>
+                <div class="stat-main-label">Total de Clientes</div>
+              </div>
+
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);">✅</div>
+                <div class="stat-main-value" id="clientesAtivos">0</div>
+                <div class="stat-main-label">Clientes Ativos</div>
+              </div>
+
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--purple) 0%, #a78bfa 100%);">👤</div>
+                <div class="stat-main-value" id="clientesPF">0</div>
+                <div class="stat-main-label">Pessoa Física</div>
+              </div>
+
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);">📦</div>
+                <div class="stat-main-value" id="totalProdutosRef">0</div>
+                <div class="stat-main-label">Produtos (Ref.)</div>
+              </div>
+            </div>
+
+            <div class="distribution-chart">
+              <div class="distribution-title">
+                <span>Distribuição por Status</span>
+                <span id="percentAtivos">0%</span>
+              </div>
+              <div class="distribution-bars">
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Ativos</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barAtivos" style="background: linear-gradient(90deg, var(--success) 0%, #34d399 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="barAtivosValue">0</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Inativos</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barInativos" style="background: linear-gradient(90deg, var(--danger) 0%, #f87171 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="barInativosValue">0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="additional-stats">
+              <div class="additional-stats-title">Métricas Adicionais</div>
+              <div class="additional-stats-grid">
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="mediaMensal">+0</div>
+                  <div class="additional-stat-label">Clientes/Mês</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="novosUltimoMes">0</div>
+                  <div class="additional-stat-label">Novos (30 dias)</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="cidadeMais">-</div>
+                  <div class="additional-stat-label">Estado Mais Comum</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="produtosAtivosRef">0</div>
+                  <div class="additional-stat-label">Produtos Ativos (Ref.)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="recent-activities">
+              <div class="activities-title">Atividades Recentes</div>
+              <div class="activities-list" id="atividadesLista"></div>
+            </div>
+
+            <div class="quick-tips">
+              <div class="tips-title">Dicas Rápidas</div>
+              <div class="tips-list">
+                <div class="tip-item">Use Ctrl+S para salvar rapidamente</div>
+                <div class="tip-item">Clique em um cliente na lista para editar</div>
+                <div class="tip-item">Ctrl+B recolhe/expande o menu</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <section class="clients-panel slide-in">
+          <div class="clients-panel-header">
+            <h2>Clientes Cadastrados</h2>
+            <div class="search-container">
+              <input type="text" class="search-input" placeholder="Buscar cliente..." id="buscarCliente" onkeyup="filtrarClientes()">
+              <button class="btn" onclick="filtrarClientes()">
+                <span>🔍</span> Buscar
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="clients-table" id="tabelaClientes">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPF/CNPJ</th>
+                  <th>E-mail</th>
+                  <th>Telefone</th>
+                  <th>Tipo</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="clientesLista"></tbody>
+            </table>
+          </div>
+
+          <div id="semClientes" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">👥</div>
+            <h3>Nenhum cliente cadastrado</h3>
+            <p>Comece cadastrando seu primeiro cliente usando o formulário acima.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMAÇÃO -->
+  <div class="modal-backdrop" id="modalConfirmacao">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Confirmação</h3>
+        <button class="modal-close" onclick="fecharModal()">×</button>
+      </div>
+      <div class="modal-body" id="modalCorpo"></div>
+      <div style="display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarAcao" onclick="confirmarAcao()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Ordem de Serviço</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+
+<body>
+  <div class="layout" id="mainLayout">
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+
+        <ul class="menu">
+          <li><a href="../index.html"><span class="menu-icon">📊</span><span class="menu-text">Dashboard</span><span class="menu-tooltip">Dashboard</span></a></li>
+          <li><a href="cadastrar-clientes.html"><span class="menu-icon">👥</span><span class="menu-text">Clientes</span><span class="menu-tooltip">Clientes</span></a></li>
+          <li><a href="produtos.html"><span class="menu-icon">📦</span><span class="menu-text">Produtos</span><span class="menu-tooltip">Produtos</span></a></li>
+          <li><a href="servicos.html"><span class="menu-icon">🔧</span><span class="menu-text">Serviços</span><span class="menu-tooltip">Serviços</span></a></li>
+          <li><a href="vendas.html"><span class="menu-icon">💰</span><span class="menu-text">Vendas</span><span class="menu-tooltip">Vendas</span></a></li>
+          <li><a href="ordem-servico.html" class="active"><span class="menu-icon">📋</span><span class="menu-text">Ordens</span><span class="menu-tooltip">Ordens</span></a></li>
+          <li><a href="garantias.html"><span class="menu-icon">🛡️</span><span class="menu-text">Garantias</span><span class="menu-tooltip">Garantias</span></a></li>
+          <li><a href="arquivos.html"><span class="menu-icon">📁</span><span class="menu-text">Arquivos</span><span class="menu-tooltip">Arquivos</span></a></li>
+          <li><a href="financeiro.html"><span class="menu-icon">💳</span><span class="menu-text">Financeiro</span><span class="menu-tooltip">Financeiro</span></a></li>
+          <li><a href="cobranca.html"><span class="menu-icon">📄</span><span class="menu-text">Cobrança</span><span class="menu-tooltip">Cobrança</span></a></li>
+          <li><a href="configuracoes.html"><span class="menu-icon">⚙️</span><span class="menu-text">Configurações</span><span class="menu-tooltip">Configurações</span></a></li>
+        </ul>
+
+        <div class="sidebar-footer">v3.8.1 • © <span id="ano-atual"></span> • OS Flow</div>
+      </aside>
+    </div>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-title">
+          Ordem de Serviço
+          <div class="breadcrumb"><span>Status: Recebido → Diagnóstico → Em reparo → Aguardando buscar → Pronto</span></div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong id="topUserName">Usuário</strong></span>
+          <div class="user-avatar" id="topUserAvatar">U</div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-header">
+          <h1>Ordens de Serviço</h1>
+          <div class="actions">
+            <button class="btn" type="button" onclick="resetCriacao()">🆕 Nova OS</button>
+            <a class="btn" href="configuracoes.html" target="_blank" rel="noopener">⚙️ Tipos/Checklist</a>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-title">👥 Criar OS (dados do cliente)</div>
+
+          <div class="section-help">
+            Fluxo: crie a OS com o <strong>cliente</strong>. Depois, na lista, clique em <strong>Editar</strong> para preencher
+            equipamento (tipo cadastrado em Configurações), dinâmicos, checklist, produtos/serviços e faturar.
+          </div>
+
+          <form id="osCreateForm" onsubmit="criarOSBasica(event)">
+            <div class="form-row">
+              <div class="field">
+                <label for="clienteSelect">Cliente cadastrado</label>
+                <select id="clienteSelect" onchange="onClienteSelecionado()">
+                  <option value="">Selecionar...</option>
+                </select>
+                <div class="hint">Puxa do cadastro.</div>
+              </div>
+
+              <div class="field">
+                <label for="clienteNome">Nome do cliente (snapshot)</label>
+                <input id="clienteNome" placeholder="Digite o nome do cliente" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="clienteTelefone">Telefone</label>
+                <input id="clienteTelefone" placeholder="(11) 99999-9999" />
+              </div>
+
+              <div class="field">
+                <label for="clienteEmail">E-mail</label>
+                <input id="clienteEmail" placeholder="cliente@email.com" />
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">💾 Salvar e criar OS</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">📚 OS criadas</div>
+
+          <div class="form-row">
+            <div class="field" style="margin-bottom:0;">
+              <label for="buscarOS">Buscar</label>
+              <input id="buscarOS" placeholder="Buscar por número ou cliente..." oninput="renderListaOS()" />
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label for="filtroStatus">Status</label>
+              <select id="filtroStatus" onchange="renderListaOS()">
+                <option value="">Todos</option>
+                <option value="recebido">Recebido</option>
+                <option value="diagnostico">Diagnóstico</option>
+                <option value="reparo">Em reparo</option>
+                <option value="aguardando_buscar">Aguardando cliente buscar</option>
+                <option value="pronto">Pronto</option>
+                <option value="finalizada">Finalizada</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="overflow:auto; margin-top: var(--space-4);">
+            <table class="table" aria-label="Lista de OS" id="osTable">
+              <thead>
+                <tr>
+                  <th>Nº OS</th>
+                  <th>Cliente</th>
+                  <th>Status</th>
+                  <th>Faturamento</th>
+                  <th style="text-align:right;">Total</th>
+                  <th>Criada em</th>
+                  <th style="width: 340px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="osList"></tbody>
+            </table>
+          </div>
+
+          <div id="emptyOS" class="empty" style="display:none; margin-top: var(--space-4);">
+            Nenhuma OS criada ainda. Use o formulário acima para criar a primeira.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL EDITAR OS -->
+  <div class="modal-backdrop" id="modalEditarOS">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalEditarTitulo">Editar OS</h3>
+        <button class="modal-close" type="button" onclick="fecharModalEditar()">×</button>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Abas de edição da OS">
+        <button class="tab active" type="button" onclick="selectTab('tab-geral')" id="btn-tab-geral">Geral</button>
+        <button class="tab" type="button" onclick="selectTab('tab-equipamento')" id="btn-tab-equipamento">Equipamento</button>
+        <button class="tab" type="button" onclick="selectTab('tab-dinamicos')" id="btn-tab-dinamicos">Dinâmicos</button>
+        <button class="tab" type="button" onclick="selectTab('tab-checklist')" id="btn-tab-checklist">Checklist</button>
+        <button class="tab" type="button" onclick="selectTab('tab-anexos')" id="btn-tab-anexos">Anexos</button>
+        <button class="tab" type="button" onclick="selectTab('tab-produtos')" id="btn-tab-produtos">Produtos</button>
+        <button class="tab" type="button" onclick="selectTab('tab-servicos')" id="btn-tab-servicos">Serviços</button>
+        <button class="tab" type="button" onclick="selectTab('tab-faturamento')" id="btn-tab-faturamento">Faturar</button>
+        <button class="tab" type="button" onclick="selectTab('tab-termo')" id="btn-tab-termo">Garantia</button>
+      </div>
+
+      <form id="osEditForm" onsubmit="salvarDetalhesOS(event)">
+        <!-- Geral -->
+        <div class="tab-pane active" id="tab-geral" role="tabpanel" aria-labelledby="btn-tab-geral">
+          <div class="panel-title" style="margin-top:0;">📌 Controle</div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="editNumeroOS">Número OS</label>
+              <input id="editNumeroOS" readonly />
+              <div class="hint">Gerado automaticamente na criação.</div>
+            </div>
+
+            <div class="field">
+              <label for="editStatus">Status</label>
+              <select id="editStatus">
+                <option value="recebido">Recebido</option>
+                <option value="diagnostico">Diagnóstico</option>
+                <option value="reparo">Em reparo</option>
+                <option value="aguardando_buscar">Aguardando cliente buscar</option>
+                <option value="pronto">Pronto</option>
+                <option value="finalizada">Finalizada</option>
+              </select>
+              <div class="hint">Finalizada = cancelada / cliente desistiu / sem serviço.</div>
+            </div>
+          </div>
+
+          <div class="panel-title">🧠 Defeito / Diagnóstico</div>
+
+          <div class="field">
+            <label for="editDefeitoRelatado">Defeito relatado</label>
+            <textarea id="editDefeitoRelatado" placeholder="O que o cliente informou"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="editDiagnostico">Diagnóstico técnico</label>
+            <textarea id="editDiagnostico" placeholder="Análise do técnico"></textarea>
+          </div>
+
+          <div class="panel-title">📝 Observações gerais</div>
+          <div class="field">
+            <label for="editObsGeral">Observações</label>
+            <textarea id="editObsGeral" placeholder="Observações internas"></textarea>
+          </div>
+        </div>
+
+        <!-- Equipamento -->
+        <div class="tab-pane" id="tab-equipamento" role="tabpanel" aria-labelledby="btn-tab-equipamento">
+          <div class="panel-title">📱 Equipamento</div>
+
+          <div class="section-help">
+            Os tipos e campos dinâmicos vêm de <strong>Configurações → Tipos de Equipamento</strong>.
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="editTipoEquipamento">Tipo</label>
+              <select id="editTipoEquipamento" onchange="onModalTipoEquipamentoChange()">
+                <option value="">Carregando...</option>
+              </select>
+              <div class="hint">A lista é controlada pelo Configurações (dinâmicos).</div>
+            </div>
+
+            <div class="field">
+              <label for="editMarcaModelo">Marca / Modelo</label>
+              <input id="editMarcaModelo" placeholder="Ex: iPhone 14 / Dell XPS / Samsung UN50..." />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="editSerial">Serial / IMEI</label>
+              <input id="editSerial" placeholder="Opcional" />
+            </div>
+
+            <div class="field">
+              <label for="editSenha">Senha (se houver)</label>
+              <input id="editSenha" placeholder="Opcional" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="editAcessorios">Acessórios entregues</label>
+            <input id="editAcessorios" placeholder="carregador, cabo, controle..." />
+          </div>
+
+          <div class="field">
+            <label for="editEstadoFisico">Estado físico</label>
+            <textarea id="editEstadoFisico" placeholder="Riscos, trincas, manchas..."></textarea>
+          </div>
+        </div>
+
+        <!-- Dinâmicos -->
+        <div class="tab-pane" id="tab-dinamicos">
+          <div class="panel-title">🧩 Campos Dinâmicos do Equipamento</div>
+          <div class="section-help">
+            Esses campos são definidos em <strong>Configurações</strong>. Eles aparecem conforme o tipo selecionado.
+          </div>
+
+          <div id="dinamicosSlot" class="empty">Selecione o tipo do equipamento.</div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="tab-pane" id="tab-checklist">
+          <div class="panel-title">✅ Checklist de Recebimento</div>
+          <div class="section-help">Checklist definido em Configurações por tipo.</div>
+          <div id="checklistSlot" class="empty">Selecione o tipo do equipamento.</div>
+        </div>
+
+        <!-- Anexos -->
+        <div class="tab-pane" id="tab-anexos">
+          <div class="panel-title">📎 Anexos / Fotos / Vídeos</div>
+          <div class="section-help">
+            Integração com <strong>arquivos.html</strong> (pasta por OS). Para anexar, use a página Arquivos e selecione a OS.
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="editAnexosGroupKey">Chave de grupo</label>
+              <input id="editAnexosGroupKey" placeholder="osflow:files:os|<osId>" readonly />
+            </div>
+            <div class="field">
+              <label for="editAnexosIds">IDs vinculados</label>
+              <input id="editAnexosIds" placeholder="id1,id2,id3" readonly />
+            </div>
+          </div>
+
+          <div style="display:flex; gap:.5rem; flex-wrap:wrap;">
+            <button class="btn" type="button" onclick="window.open('arquivos.html', '_blank')">📁 Abrir Arquivos</button>
+          </div>
+        </div>
+
+        <!-- Produtos -->
+        <div class="tab-pane" id="tab-produtos">
+          <div class="panel-title">📦 Produtos (estoque) na OS</div>
+          <div class="section-help">Gera valores. Baixa estoque apenas ao pagar (ou pagar agora no faturamento).</div>
+
+          <div class="split-row">
+            <div class="field" style="margin-bottom:0;">
+              <label for="buscarProduto">Buscar produto</label>
+              <input id="buscarProduto" placeholder="Nome, código..." oninput="renderProdutosBusca()" />
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>Ações</label>
+              <div class="inline-actions">
+                <button class="btn" type="button" onclick="renderProdutosBusca()">🔍 Buscar</button>
+                <button class="btn" type="button" onclick="limparBuscaProduto()">🧹 Limpar</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="overflow:auto; margin-top: var(--space-4);">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Estoque</th>
+                  <th style="text-align:right;">Preço</th>
+                  <th style="width:160px;">Qtd</th>
+                  <th style="width:120px;">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="produtoBuscaTbody"></tbody>
+            </table>
+          </div>
+
+          <div class="panel-title" style="margin-top: var(--space-8);">🛒 Itens na OS</div>
+          <div style="overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th style="text-align:right;">Preço</th>
+                  <th style="text-align:center;">Qtd</th>
+                  <th style="text-align:right;">Subtotal</th>
+                  <th style="width:120px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="osProdutosTbody"></tbody>
+            </table>
+          </div>
+          <div id="osProdutosEmpty" class="empty" style="display:none; margin-top: var(--space-4);">
+            Nenhum produto adicionado nesta OS.
+          </div>
+        </div>
+
+        <!-- Serviços -->
+        <div class="tab-pane" id="tab-servicos">
+          <div class="panel-title">🔧 Serviços (cadastrados) na OS</div>
+          <div class="section-help">Serviços disponíveis vêm do cadastro de serviços.</div>
+
+          <div class="split-row">
+            <div class="field" style="margin-bottom:0;">
+              <label for="buscarServico">Buscar serviço</label>
+              <input id="buscarServico" placeholder="Nome..." oninput="renderServicosBusca()" />
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>Ações</label>
+              <div class="inline-actions">
+                <button class="btn" type="button" onclick="renderServicosBusca()">🔍 Buscar</button>
+                <button class="btn" type="button" onclick="limparBuscaServico()">🧹 Limpar</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="overflow:auto; margin-top: var(--space-4);">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th style="text-align:right;">Valor</th>
+                  <th style="width:120px;">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="servicoBuscaTbody"></tbody>
+            </table>
+          </div>
+
+          <div class="panel-title" style="margin-top: var(--space-8);">📌 Serviços anexados</div>
+          <div style="overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th style="text-align:right;">Valor</th>
+                  <th style="width:120px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="osServicosTbody"></tbody>
+            </table>
+          </div>
+          <div id="osServicosEmpty" class="empty" style="display:none; margin-top: var(--space-4);">
+            Nenhum serviço anexado nesta OS.
+          </div>
+        </div>
+
+        <!-- Faturamento -->
+        <div class="tab-pane" id="tab-faturamento">
+          <div class="panel-title">💳 Faturamento</div>
+          <div class="section-help">Pagar agora baixa estoque. Gerar cobrança não baixa estoque (baixa somente quando marcar como paga em Cobrança).</div>
+
+          <div class="split-row">
+            <div class="kpi-box">
+              <div class="kpi-label">Subtotal produtos</div>
+              <div class="kpi-value money" id="kpiSubProdutos">R$ 0,00</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label">Subtotal serviços</div>
+              <div class="kpi-value money" id="kpiSubServicos">R$ 0,00</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label">Desconto</div>
+              <div class="kpi-value money" id="kpiDesconto">R$ 0,00</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label">Total</div>
+              <div class="kpi-value money" id="kpiTotal">R$ 0,00</div>
+            </div>
+          </div>
+
+          <div class="panel-title" style="margin-top: var(--space-8);">Ajustes</div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="editDesconto">Desconto (R$)</label>
+              <input id="editDesconto" type="number" min="0" step="0.01" value="0" oninput="updateFinanceKPIs()" />
+            </div>
+            <div class="field">
+              <label for="editFormaPagamento">Forma de pagamento (preferência)</label>
+              <select id="editFormaPagamento">
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="cartao">Cartão</option>
+                <option value="boleto">Boleto</option>
+                <option value="transferencia">Transferência</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="panel-title">Status do faturamento</div>
+          <div style="display:flex; gap: var(--space-2); flex-wrap:wrap; align-items:center;">
+            <span class="pill" id="pillFaturamento">Não faturada</span>
+            <span class="hint" id="hintFaturamento"></span>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-warning" type="button" onclick="abrirModalFaturamento()">🧾 Faturar OS</button>
+          </div>
+        </div>
+
+        <!-- Termo -->
+        <div class="tab-pane" id="tab-termo">
+          <div class="panel-title">🧾 Garantia / Termo</div>
+          <div class="section-help">Esta parte pode ser integrada depois com garantias.html.</div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="editTermo">Selecionar garantia</label>
+              <select id="editTermo" onchange="renderPreviewTermo()">
+                <option value="30">Padrão 30 dias</option>
+                <option value="90">Padrão 90 dias</option>
+                <option value="0">Sem garantia</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="editTermoObs">Observações do termo</label>
+              <input id="editTermoObs" placeholder="Opcional" oninput="renderPreviewTermo()" />
+            </div>
+          </div>
+
+          <div id="previewTermo" class="empty" style="text-align:left;">
+            Preview do termo.
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn" type="button" onclick="fecharModalEditar()">Cancelar</button>
+          <button class="btn btn-success" type="submit">💾 Salvar detalhes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Escolha de faturamento -->
+  <div class="modal-backdrop" id="modalFaturamento">
+    <div class="modal" style="width: 720px;">
+      <div class="modal-header">
+        <h3>🧾 Faturar OS</h3>
+        <button class="modal-close" type="button" onclick="fecharModalFaturamento()">×</button>
+      </div>
+
+      <div class="section-help" id="faturamentoResumo"></div>
+
+      <div class="fulfillment">
+        <div class="fulfillment-title">Como finalizar</div>
+
+        <label class="radio-row" for="osOptPayNow">
+          <input type="radio" name="osFulfillment" id="osOptPayNow" value="pay_now" checked />
+          <div>
+            <strong>Pagar agora</strong>
+            <small>Marca a OS como <b>faturada</b> e dá baixa no estoque imediatamente.</small>
+          </div>
+        </label>
+
+        <label class="radio-row" for="osOptCharge">
+          <input type="radio" name="osFulfillment" id="osOptCharge" value="charge" />
+          <div>
+            <strong>Gerar cobrança</strong>
+            <small>Cria cobrança em <b>cobranca.html</b> e deixa a OS como <b>aguardando pagamento</b>. Sem baixa no estoque até pagar.</small>
+          </div>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" type="button" onclick="fecharModalFaturamento()">Cancelar</button>
+        <button class="btn btn-primary" type="button" onclick="confirmarFaturamento()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

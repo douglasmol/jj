@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Dashboard Inteligente</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <!-- SIDEBAR RECOLHÍVEL -->
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+        <ul class="menu">
+          <li><a href="index.html" class="active">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+          <li><a href="pages/cadastrar-clientes.html">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+          <li><a href="pages/produtos.html">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+          <li><a href="pages/servicos.html">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+          <li><a href="pages/vendas.html">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+          <li><a href="pages/ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+          <li><a href="pages/garantias.html">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+          <li><a href="pages/arquivos.html">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+          <li><a href="financeiro.html">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+          <li><a href="pages/configuracoes.html">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            Visão Geral do Sistema
+            <div class="breadcrumb">
+              <span>Dashboard</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong id="topUserName">Usuário</strong></span>
+          <div class="user-avatar" id="topUserAvatar">U</div>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- CARDS DE ACESSO RÁPIDO -->
+        <section class="top-cards-row">
+          <div class="top-card blue pulse" onclick="window.location.href='pages/cadastrar-clientes.html'">
+            <div class="top-card-header">
+              <div class="top-card-title">Clientes</div>
+              <div class="top-card-icon">👥</div>
+            </div>
+            <div class="top-card-shortcut">F1</div>
+          </div>
+
+          <div class="top-card yellow" onclick="window.location.href='pages/produtos.html'">
+            <div class="top-card-header">
+              <div class="top-card-title">Estoque</div>
+              <div class="top-card-icon">📦</div>
+            </div>
+            <div class="top-card-shortcut">F2</div>
+          </div>
+
+          <div class="top-card cyan" onclick="window.location.href='pages/servicos.html'">
+            <div class="top-card-header">
+              <div class="top-card-title">Serviços</div>
+              <div class="top-card-icon">🔧</div>
+            </div>
+            <div class="top-card-shortcut">F3</div>
+          </div>
+
+          <div class="top-card pink" onclick="novaOS()">
+            <div class="top-card-header">
+              <div class="top-card-title">Nova OS</div>
+              <div class="top-card-icon">✨</div>
+            </div>
+            <div class="top-card-shortcut">F4</div>
+          </div>
+
+          <div class="top-card clock float">
+            <div class="clock-content">
+              <div class="clock-time" id="clock-time">12:34</div>
+              <div class="clock-label">Horário do Sistema</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LAYOUT PRINCIPAL -->
+        <section class="dashboard-layout">
+          <div>
+            <!-- CALENDÁRIO INTERATIVO -->
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>📅 Agenda Inteligente</h2>
+                  <div class="panel-header-sub">Visualize e gerencie suas ordens de serviço</div>
+                </div>
+                <div class="panel-actions">
+                  <button class="btn" onclick="goToToday()">Hoje</button>
+                  <button class="btn" onclick="changeMonth(-1)">◀</button>
+                  <button class="btn" onclick="changeMonth(1)">▶</button>
+                  <button class="btn btn-primary" onclick="novaOS()">
+                    <span>+</span> Nova Ordem
+                  </button>
+                </div>
+              </div>
+              <div class="calendar-month" id="calendar-month-label">
+                <span id="month-label">Janeiro 2024</span>
+              </div>
+              <table class="calendar">
+                <thead>
+                  <tr>
+                    <th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th>
+                  </tr>
+                </thead>
+                <tbody id="calendar-body"></tbody>
+              </table>
+              <div class="calendar-footer">
+                <div><span>🔍</span> Visualização de todas as ordens</div>
+                <div><span>⚡</span> Total: <strong id="total-os-mes">0</strong> ordens</div>
+              </div>
+            </section>
+
+            <!-- PAINEL DE GRÁFICOS -->
+            <section class="charts-panel">
+              <div class="charts-title">📈 Análise de Dados</div>
+              <div class="charts-grid">
+                <div class="chart-container">
+                  <div class="chart-header">
+                    <div class="chart-title">OS Últimos 7 Dias</div>
+                    <div class="chart-value">—</div>
+                  </div>
+                  <div class="chart-canvas-container">
+                    <canvas id="chart-os-7dias" class="chart-canvas"></canvas>
+                  </div>
+                </div>
+
+                <div class="chart-container">
+                  <div class="chart-header">
+                    <div class="chart-title">Status das Ordens</div>
+                    <div class="chart-value">—</div>
+                  </div>
+                  <div class="chart-canvas-container">
+                    <canvas id="chart-os-status" class="chart-canvas"></canvas>
+                  </div>
+                </div>
+
+                <div class="chart-container">
+                  <div class="chart-header">
+                    <div class="chart-title">Entradas vs Saídas</div>
+                    <div class="chart-value">—</div>
+                  </div>
+                  <div class="chart-canvas-container">
+                    <canvas id="chart-entrada-saida" class="chart-canvas"></canvas>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- PAINEL LATERAL -->
+          <div>
+            <!-- PAINEL DE ESTATÍSTICAS -->
+            <aside class="stats-panel">
+              <div class="stats-title">📊 Métricas do Sistema</div>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-icon blue">👥</div>
+                  <div class="stat-value" id="stat-clientes">0</div>
+                  <div class="stat-label">Clientes</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon yellow">📦</div>
+                  <div class="stat-value" id="stat-produtos">0</div>
+                  <div class="stat-label">Produtos</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon purple">🔧</div>
+                  <div class="stat-value" id="stat-servicos">0</div>
+                  <div class="stat-label">Serviços</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon teal">📋</div>
+                  <div class="stat-value" id="stat-os">0</div>
+                  <div class="stat-label">Ordens</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon green">💰</div>
+                  <div class="stat-value" id="stat-receita-dia">R$ 0</div>
+                  <div class="stat-label">Receita/Dia</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon red">📉</div>
+                  <div class="stat-value" id="stat-despesa-dia">R$ 0</div>
+                  <div class="stat-label">Despesa/Dia</div>
+                </div>
+              </div>
+            </aside>
+
+            <!-- PAINEL DE ÚLTIMAS ORDENS -->
+            <section class="orders-panel">
+              <div class="orders-panel-header">
+                <h2>⚡ Últimas Ordens</h2>
+                <button class="btn btn-primary" onclick="novaOS(event)">
+                  <span>+</span> Criar Nova
+                </button>
+              </div>
+              <div class="orders-panel-content" id="ultimas-ordens-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modal-os-dia">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-os-dia-titulo">📅 Ordens do Dia</h3>
+        <button class="modal-close" onclick="fecharModalOsDia()">×</button>
+      </div>
+      <div class="modal-body" id="modal-os-dia-body"></div>
+    </div>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

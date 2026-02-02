@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Gestão de Vendas</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+
+        <ul class="menu">
+          <li><a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+
+          <li><a href="cadastrar-clientes.html">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+
+          <li><a href="produtos.html">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+
+          <li><a href="servicos.html">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+
+          <li><a href="vendas.html" class="active">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+
+          <li><a href="ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+
+          <li><a href="#">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+
+          <li><a href="#">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+
+          <li><a href="#">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+
+          <li><a href="cobranca.html">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">Cobrança</span>
+            <span class="menu-tooltip">Cobrança</span>
+          </a></li>
+
+          <li><a href="configuracoes.html">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            Gestão de Vendas
+            <div class="breadcrumb">
+              <span>PDV - Ponto de Venda</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong>V1ctor Gomes</strong></span>
+          <div class="user-avatar">VG</div>
+        </div>
+      </header>
+
+      <main class="content fade-in">
+        <div class="sales-header slide-in">
+          <h1>Ponto de Venda (PDV)</h1>
+          <div class="sales-actions">
+            <button class="btn" onclick="abrirCaixa()">
+              <span>💵</span> Abrir Caixa
+            </button>
+            <button class="btn btn-warning" onclick="gerarRelatorio()">
+              <span>📊</span> Relatório
+            </button>
+            <button class="btn btn-primary" onclick="novaVenda()">
+              <span>🆕</span> Nova Venda
+            </button>
+          </div>
+        </div>
+
+        <div class="sales-container">
+          <section class="new-sale-panel slide-in">
+            <div class="new-sale-header">
+              <h2>Nova Venda</h2>
+            </div>
+
+            <div class="product-search">
+              <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Buscar produto por nome ou código..." id="buscarProduto" onkeyup="filtrarProdutos()">
+                <button class="btn" onclick="filtrarProdutos()"><span>🔍</span></button>
+              </div>
+
+              <div class="products-grid" id="produtosGrid"></div>
+            </div>
+
+            <div class="cart-section">
+              <div class="cart-header">
+                <h3>Carrinho de Compras</h3>
+                <span id="cart-count">0 itens</span>
+              </div>
+
+              <div class="cart-items" id="cart-items">
+                <div class="empty-state" style="padding: var(--space-8);">
+                  <div style="font-size: 2rem; margin-bottom: var(--space-2);">🛒</div>
+                  <p style="color: var(--text-tertiary);">Adicione produtos ao carrinho</p>
+                </div>
+              </div>
+
+              <div class="cart-summary">
+                <div class="summary-row">
+                  <span>Subtotal:</span>
+                  <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                  <span>Desconto:</span>
+                  <span id="desconto">R$ 0,00</span>
+                </div>
+                <div class="summary-row total">
+                  <span>Total:</span>
+                  <span id="total">R$ 0,00</span>
+                </div>
+              </div>
+
+              <div class="cart-actions">
+                <button class="btn btn-danger" onclick="limparCarrinho()">
+                  <span>🗑️</span> Limpar
+                </button>
+                <button class="btn" onclick="aplicarDesconto()">
+                  <span>🎁</span> Desconto
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <aside class="sale-info-panel slide-in">
+            <div class="sale-info-header">
+              <h3>Finalizar Venda</h3>
+            </div>
+
+            <div class="client-info">
+              <div class="client-info-title">Cliente</div>
+              <select class="client-select" id="clienteSelect">
+                <option value="">Selecionar cliente...</option>
+              </select>
+              <button class="btn new-client-btn" onclick="cadastrarCliente()">
+                <span>➕</span> Cadastrar Novo Cliente
+              </button>
+            </div>
+
+            <div class="payment-methods">
+              <div class="payment-title">Forma de Pagamento</div>
+              <div class="payment-options" id="paymentOptions">
+                <div class="payment-option" onclick="selecionarPagamento(this, 'dinheiro')">
+                  <span class="payment-option-icon">💵</span>
+                  <span class="payment-option-label">Dinheiro</span>
+                </div>
+                <div class="payment-option" onclick="selecionarPagamento(this, 'cartao')">
+                  <span class="payment-option-icon">💳</span>
+                  <span class="payment-option-label">Cartão</span>
+                </div>
+                <div class="payment-option" onclick="selecionarPagamento(this, 'pix')">
+                  <span class="payment-option-icon">🧾</span>
+                  <span class="payment-option-label">PIX</span>
+                </div>
+                <div class="payment-option" onclick="selecionarPagamento(this, 'boleto')">
+                  <span class="payment-option-icon">📄</span>
+                  <span class="payment-option-label">Boleto</span>
+                </div>
+              </div>
+
+              <div class="payment-fields" id="paymentFields" style="display: none;">
+                <div class="payment-field">
+                  <label>Valor Recebido:</label>
+                  <input type="number" class="payment-input" id="valorRecebido" placeholder="0.00" step="0.01">
+                </div>
+                <div class="payment-field" id="trocoField" style="display: none;">
+                  <label>Troco:</label>
+                  <input type="text" class="payment-input" id="troco" placeholder="0.00" readonly>
+                </div>
+              </div>
+            </div>
+
+            <!-- NOVO: após escolher pagamento, escolher "pagar agora" ou "gerar cobrança" -->
+            <div class="fulfillment" id="fulfillmentWrap" style="display:none;">
+              <div class="fulfillment-title">Como finalizar</div>
+              <div class="fulfillment-options">
+                <label class="radio-row" for="optPayNow">
+                  <input type="radio" name="fulfillment" id="optPayNow" value="pay_now" checked />
+                  <div>
+                    <strong>Pagar agora</strong>
+                    <small>Confirma a venda como <b>concluída</b> e dá baixa no estoque.</small>
+                  </div>
+                </label>
+                <label class="radio-row" for="optCharge">
+                  <input type="radio" name="fulfillment" id="optCharge" value="charge" />
+                  <div>
+                    <strong>Gerar cobrança</strong>
+                    <small>Cria cobrança em <b>cobrança.html</b> e deixa a venda como <b>aguardando pagamento</b>. Sem baixa no estoque até pagar.</small>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="sale-summary">
+              <div class="sale-summary-title">Resumo da Venda</div>
+              <div class="sale-summary-item">
+                <span>Itens:</span>
+                <span id="resumo-itens">0</span>
+              </div>
+              <div class="sale-summary-item">
+                <span>Subtotal:</span>
+                <span id="resumo-subtotal">R$ 0,00</span>
+              </div>
+              <div class="sale-summary-item">
+                <span>Desconto:</span>
+                <span id="resumo-desconto">R$ 0,00</span>
+              </div>
+              <div class="sale-summary-total">
+                <span>Total:</span>
+                <span id="resumo-total">R$ 0,00</span>
+              </div>
+            </div>
+
+            <button class="btn btn-success finish-sale-btn" onclick="finalizarVenda()">
+              <span>✅</span> Finalizar Venda
+            </button>
+
+            <div class="quick-stats">
+              <div class="quick-stats-title">Caixa do Dia</div>
+              <div class="quick-stats-grid">
+                <div class="quick-stat">
+                  <div class="quick-stat-value" id="vendas-hoje">0</div>
+                  <div class="quick-stat-label">Vendas</div>
+                </div>
+                <div class="quick-stat">
+                  <div class="quick-stat-value" id="valor-hoje">R$ 0</div>
+                  <div class="quick-stat-label">Valor</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <section class="sales-stats-panel slide-in">
+          <div class="sales-stats-header">
+            <h2>📊 Estatísticas de Vendas</h2>
+          </div>
+
+          <div class="stats-cards">
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);">💰</div>
+              <div class="stat-content">
+                <div class="stat-value" id="total-vendas-mes">R$ 0,0k</div>
+                <div class="stat-label">Vendas no Mês</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);">📈</div>
+              <div class="stat-content">
+                <div class="stat-value" id="crescimento">+0%</div>
+                <div class="stat-label">Crescimento</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);">📦</div>
+              <div class="stat-content">
+                <div class="stat-value" id="produtos-vendidos">0</div>
+                <div class="stat-label">Produtos Vendidos</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, var(--purple) 0%, #a78bfa 100%);">👥</div>
+              <div class="stat-content">
+                <div class="stat-value" id="clientes-mes">0</div>
+                <div class="stat-label">Clientes/Mês</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="recent-sales slide-in">
+          <div class="recent-sales-header">
+            <h2>Vendas Recentes</h2>
+            <button class="btn" onclick="verTodasVendas()">
+              <span>📋</span> Ver Todas
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="sales-table" id="tabelaVendas">
+              <thead>
+                <tr>
+                  <th>Nº Venda</th>
+                  <th>Cliente</th>
+                  <th>Data</th>
+                  <th>Itens</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="vendasLista"></tbody>
+            </table>
+          </div>
+
+          <div id="semVendas" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">💰</div>
+            <h3>Nenhuma venda registrada</h3>
+            <p>Realize sua primeira venda usando o PDV acima.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalConfirmacao">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Confirmação</h3>
+        <button class="modal-close" onclick="fecharModal()">×</button>
+      </div>
+      <div class="modal-body" id="modalCorpo"></div>
+      <div style="display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-success" id="btnConfirmarAcao" onclick="confirmarAcao()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalComprovante">
+    <div class="modal" style="width: 400px;">
+      <div class="modal-header">
+        <h3>🎫 Comprovante de Venda</h3>
+        <button class="modal-close" onclick="fecharModalComprovante()">×</button>
+      </div>
+      <div class="modal-body" id="modalComprovanteCorpo"></div>
+      <div style="display: flex; justify-content: center; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="imprimirComprovante()">
+          <span>🖨️</span> Imprimir
+        </button>
+        <button class="btn btn-primary" onclick="fecharModalComprovante()">
+          <span>✅</span> OK
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
