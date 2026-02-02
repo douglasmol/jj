@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Cadastro de Serviços</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <!-- SIDEBAR RECOLHÍVEL -->
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+        <ul class="menu">
+          <li><a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+          <li><a href="cadastrar-clientes.html">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+          <li><a href="produtos.html">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+          <li><a href="servicos.html" class="active">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+          <li><a href="ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">Cobrança</span>
+            <span class="menu-tooltip">Cobrança</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            Cadastro de Serviços
+            <div class="breadcrumb">
+              <span>Gestão de Serviços</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong>V1ctor Gomes</strong></span>
+          <div class="user-avatar">VG</div>
+        </div>
+      </header>
+
+      <main class="content fade-in">
+        <!-- CABEÇALHO DA PÁGINA -->
+        <div class="service-header slide-in">
+          <h1>Cadastro de Serviços</h1>
+          <div class="service-actions">
+            <button class="btn" onclick="exportarServicos()">
+              <span>📤</span> Exportar
+            </button>
+            <button class="btn btn-primary" onclick="limparFormulario()">
+              <span>🆕</span> Novo Serviço
+            </button>
+          </div>
+        </div>
+
+        <!-- FORMULÁRIO E ESTATÍSTICAS -->
+        <div class="service-form-container">
+          <!-- FORMULÁRIO PRINCIPAL -->
+          <section class="form-panel slide-in">
+            <div class="form-panel-header">
+              <h2>Dados do Serviço</h2>
+            </div>
+            
+            <form id="servicoForm" onsubmit="salvarServico(event)">
+              <div class="form-group">
+                <label class="form-label required" for="nome">Nome do Serviço</label>
+                <input type="text" id="nome" class="form-input" placeholder="Digite o nome do serviço" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label required" for="codigo">Código do Serviço</label>
+                <input type="text" id="codigo" class="form-input" placeholder="Ex: SRV-001" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="categoria">Categoria</label>
+                  <select id="categoria" class="form-input form-select" required>
+                    <option value="">Selecione...</option>
+                    <option value="conserto">Conserto</option>
+                    <option value="manutencao">Manutenção</option>
+                    <option value="instalacao">Instalação</option>
+                    <option value="configuracao">Configuração</option>
+                    <option value="limpeza">Limpeza</option>
+                    <option value="diagnostico">Diagnóstico</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="tipo">Tipo de Serviço</label>
+                  <select id="tipo" class="form-input form-select" required>
+                    <option value="">Selecione...</option>
+                    <option value="interno">Interno</option>
+                    <option value="externo">Externo</option>
+                    <option value="remoto">Remoto</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="tempo_estimado">Tempo Estimado</label>
+                  <input type="text" id="tempo_estimado" class="form-input" placeholder="Ex: 2 horas" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="garantia">Garantia (dias)</label>
+                  <input type="number" id="garantia" class="form-input" placeholder="Ex: 30" min="0" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="valor">Valor (R$)</label>
+                  <input type="number" id="valor" class="form-input" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="custo">Custo (R$)</label>
+                  <input type="number" id="custo" class="form-input" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="descricao">Descrição do Serviço</label>
+                <textarea id="descricao" class="form-input form-textarea" placeholder="Descreva detalhadamente o serviço..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="observacoes">Observações Adicionais</label>
+                <textarea id="observacoes" class="form-input form-textarea" placeholder="Informações complementares..."></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required" for="dificuldade">Nível de Dificuldade</label>
+                  <select id="dificuldade" class="form-input form-select" required>
+                    <option value="">Selecione...</option>
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label required" for="status">Status</label>
+                  <select id="status" class="form-input form-select" required>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-danger" onclick="limparFormulario()">
+                  <span>🗑️</span> Limpar
+                </button>
+                <button type="submit" class="btn btn-success">
+                  <span>💾</span> Salvar Serviço
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- PAINEL DE ESTATÍSTICAS AVANÇADAS -->
+          <aside class="stats-panel slide-in">
+            <div class="stats-panel-header">
+              <h3>📊 Estatísticas dos Serviços</h3>
+            </div>
+            
+            <!-- Estatísticas principais -->
+            <div class="stats-main-grid">
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);">🔧</div>
+                <div class="stat-main-value" id="totalServicos">0</div>
+                <div class="stat-main-label">Total de Serviços</div>
+              </div>
+              
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);">✅</div>
+                <div class="stat-main-value" id="servicosAtivos">0</div>
+                <div class="stat-main-label">Serviços Ativos</div>
+              </div>
+              
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--purple) 0%, #a78bfa 100%);">💰</div>
+                <div class="stat-main-value" id="faturamentoMedio">R$ 0</div>
+                <div class="stat-main-label">Faturamento Médio</div>
+              </div>
+              
+              <div class="stat-main-card">
+                <div class="stat-main-icon" style="background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);">⏱️</div>
+                <div class="stat-main-value" id="tempoMedio">0h</div>
+                <div class="stat-main-label">Tempo Médio</div>
+              </div>
+            </div>
+            
+            <!-- Gráfico de distribuição -->
+            <div class="distribution-chart">
+              <div class="distribution-title">
+                <span>Distribuição por Categoria</span>
+                <span id="percentConserto">0%</span>
+              </div>
+              <div class="distribution-bars">
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Conserto</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barConserto" style="background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-600) 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="barConsertoValue">0</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Manutenção</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barManutencao" style="background: linear-gradient(90deg, var(--success) 0%, #34d399 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="barManutencaoValue">0</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="distribution-bar">
+                  <span class="distribution-bar-label">Outros</span>
+                  <div class="distribution-bar-container">
+                    <div class="distribution-bar-fill" id="barOutros" style="background: linear-gradient(90deg, var(--warning) 0%, #fbbf24 100%); width: 0%;">
+                      <span class="distribution-bar-value" id="barOutrosValue">0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Estatísticas Adicionais -->
+            <div class="additional-stats">
+              <div class="additional-stats-title">Métricas Financeiras</div>
+              <div class="additional-stats-grid">
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="lucroMedio">0%</div>
+                  <div class="additional-stat-label">Margem Média</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="servicosMes">0</div>
+                  <div class="additional-stat-label">Serviços/Mês</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="garantiaMedia">0</div>
+                  <div class="additional-stat-label">Garantia Média</div>
+                </div>
+                <div class="additional-stat-item">
+                  <div class="additional-stat-value" id="popularidade">0%</div>
+                  <div class="additional-stat-label">Popularidade</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Atividades Recentes -->
+            <div class="recent-activities">
+              <div class="activities-title">Atividades Recentes</div>
+              <div class="activities-list" id="atividadesLista"></div>
+            </div>
+            
+            <!-- Dicas Rápidas -->
+            <div class="quick-tips">
+              <div class="tips-title">Dicas Rápidas</div>
+              <div class="tips-list">
+                <div class="tip-item">Calcule bem o custo para definir o preço ideal</div>
+                <div class="tip-item">Serviços inativos não aparecem nas OS</div>
+                <div class="tip-item">Ajuste a garantia conforme a complexidade</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- LISTA DE SERVIÇOS -->
+        <section class="services-panel slide-in">
+          <div class="services-panel-header">
+            <h2>Serviços Cadastrados</h2>
+            <div class="search-container">
+              <input type="text" class="search-input" placeholder="Buscar serviço..." id="buscarServico" onkeyup="filtrarServicos()">
+              <button class="btn" onclick="filtrarServicos()">
+                <span>🔍</span> Buscar
+              </button>
+            </div>
+          </div>
+          
+          <div class="table-container">
+            <table class="services-table" id="tabelaServicos">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Tempo</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="servicosLista"></tbody>
+            </table>
+          </div>
+          
+          <div id="semServicos" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">🔧</div>
+            <h3>Nenhum serviço cadastrado</h3>
+            <p>Comece cadastrando seu primeiro serviço usando o formulário acima.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMAÇÃO -->
+  <div class="modal-backdrop" id="modalConfirmacao">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Confirmação</h3>
+        <button class="modal-close" onclick="fecharModal()">×</button>
+      </div>
+      <div class="modal-body" id="modalCorpo"></div>
+      <div style="display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarAcao" onclick="confirmarAcao()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

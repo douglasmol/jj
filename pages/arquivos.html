@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OS Flow • Arquivos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="layout" id="mainLayout">
+    <!-- SIDEBAR -->
+    <div class="sidebar-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" onclick="toggleSidebar()">OS</div>
+          <div class="sidebar-logo-text">
+            <h1>OS Flow</h1>
+            <small>Dashboard Inteligente</small>
+          </div>
+        </div>
+
+        <ul class="menu">
+          <li><a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+            <span class="menu-tooltip">Dashboard</span>
+          </a></li>
+          <li><a href="cadastrar-clientes.html">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Clientes</span>
+            <span class="menu-tooltip">Clientes</span>
+          </a></li>
+          <li><a href="produtos.html">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Produtos</span>
+            <span class="menu-tooltip">Produtos</span>
+          </a></li>
+          <li><a href="servicos.html">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Serviços</span>
+            <span class="menu-tooltip">Serviços</span>
+          </a></li>
+          <li><a href="vendas.html">
+            <span class="menu-icon">💰</span>
+            <span class="menu-text">Vendas</span>
+            <span class="menu-tooltip">Vendas</span>
+          </a></li>
+          <li><a href="ordem-servico.html">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">Ordens</span>
+            <span class="menu-tooltip">Ordens</span>
+          </a></li>
+          <li><a href="garantias.html">
+            <span class="menu-icon">🛡️</span>
+            <span class="menu-text">Garantias</span>
+            <span class="menu-tooltip">Garantias</span>
+          </a></li>
+          <li><a href="arquivos.html" class="active">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">Arquivos</span>
+            <span class="menu-tooltip">Arquivos</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">💳</span>
+            <span class="menu-text">Financeiro</span>
+            <span class="menu-tooltip">Financeiro</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">Cobrança</span>
+            <span class="menu-tooltip">Cobrança</span>
+          </a></li>
+          <li><a href="#">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Configurações</span>
+            <span class="menu-tooltip">Configurações</span>
+          </a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+          v3.8.1 • © <span id="ano-atual"></span> • OS Flow
+        </div>
+      </aside>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-title">
+          Arquivos de OS
+          <div class="breadcrumb"><span>Anexos</span></div>
+        </div>
+        <div class="user-info">
+          <span>Bem-vindo, <strong>V1ctor Gomes</strong></span>
+          <div class="user-avatar">VG</div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-header">
+          <h1>Arquivos</h1>
+          <div class="page-actions">
+            <button class="btn" onclick="refreshAll()">🔄 Atualizar</button>
+            <button class="btn btn-primary" onclick="resetUploadWizard()">🆕 Novo Anexo</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <!-- Upload -->
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Anexar arquivos</h2>
+                <div class="panel-sub">Pasta por OS • Categorias: antes / depois / documento / diagnóstico / outros</div>
+              </div>
+            </div>
+
+            <form id="arquivoForm" onsubmit="salvarAnexos(event)">
+              <div class="form-group">
+                <label class="form-label required" for="clienteSelect">Cliente</label>
+                <select id="clienteSelect" class="form-input form-select" required onchange="onClienteChange()">
+                  <option value="">Selecione...</option>
+                </select>
+                <div class="hint">Lista vem do cadastro de clientes.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="osSelect">Ordem de Serviço (OS)</label>
+                <select id="osSelect" class="form-input form-select" required onchange="onOSChange()">
+                  <option value="">Selecione um cliente primeiro...</option>
+                </select>
+                <div class="hint" id="osHint">Somente OS desse cliente.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="categoria">Categoria</label>
+                <select id="categoria" class="form-input form-select" required>
+                  <option value="">Selecione...</option>
+                  <option value="antes">📷 Antes</option>
+                  <option value="depois">✅ Depois</option>
+                  <option value="diagnostico">🧪 Diagnóstico</option>
+                  <option value="documento">📄 Documento</option>
+                  <option value="outros">📁 Outros</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="observacao">Observação</label>
+                <input type="text" id="observacao" class="form-input" placeholder="Ex: Tela trincada no canto superior">
+              </div>
+
+              <input id="fileInput" type="file" accept="image/*,video/*" multiple style="display:none" />
+
+              <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+                <div class="dropzone-title">Arraste e solte fotos/vídeos aqui</div>
+                <div class="dropzone-sub">ou clique para selecionar arquivos</div>
+                <div class="file-hint">Armazenamento local via IndexedDB (vinculado à OS selecionada).</div>
+              </div>
+
+              <div style="margin-top: var(--space-4); font-size: 0.875rem; color: var(--text-tertiary);" id="selectedFilesInfo">
+                Nenhum arquivo selecionado.
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-danger" onclick="resetUploadWizard()">🗑️ Limpar</button>
+                <button type="submit" class="btn btn-success" id="btnSalvarAnexo">💾 Salvar Anexos</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Stats -->
+          <aside class="panel">
+            <div class="panel-header">
+              <h3>Estatísticas</h3>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);">📁</div>
+                <div class="stat-value" id="statTotal">0</div>
+                <div class="stat-label">Arquivos</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);">🖼️</div>
+                <div class="stat-value" id="statImagens">0</div>
+                <div class="stat-label">Imagens</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--purple) 0%, #a78bfa 100%);">🎥</div>
+                <div class="stat-value" id="statVideos">0</div>
+                <div class="stat-label">Vídeos</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);">💾</div>
+                <div class="stat-value" id="statSize">0 MB</div>
+                <div class="stat-label">Tamanho</div>
+              </div>
+            </div>
+
+            <div style="font-size: 0.875rem; color: var(--text-tertiary);">
+              Regras: anexos só podem ser salvos em uma OS existente, com cliente válido e equipamento definido (Marca/Modelo).
+            </div>
+          </aside>
+        </div>
+
+        <!-- Browser -->
+        <section class="browser-panel">
+          <div class="browser-header">
+            <div>
+              <div style="font-family: var(--font-primary); font-weight: 900; font-size: 1.25rem;">📂 Navegador de Pastas</div>
+              <div style="color: var(--text-tertiary); font-size:0.875rem; margin-top:0.25rem;">
+                Cliente → OS → Categoria → Arquivos
+              </div>
+            </div>
+            <div class="search-container">
+              <input id="searchInput" class="search-input" type="text" placeholder="Buscar por OS, cliente, nome do arquivo..." onkeyup="renderBrowser()">
+              <button class="btn" onclick="renderBrowser()">🔍 Buscar</button>
+            </div>
+          </div>
+
+          <div class="pathbar" id="pathbar"></div>
+
+          <div id="browserGrid" class="grid-cards"></div>
+
+          <div id="emptyState" class="empty-state" style="display:none;">
+            <div class="empty-state-icon">📭</div>
+            <h3>Nenhum item para mostrar</h3>
+            <p>Cadastre clientes/OS e envie arquivos vinculados à OS.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Preview -->
+  <div class="modal-backdrop" id="modalDetalhes">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Detalhes</h3>
+        <button class="modal-close" onclick="fecharModalDetalhes()">×</button>
+      </div>
+      <div class="modal-body" id="modalCorpo"></div>
+      <div style="display:flex; justify-content:flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn btn-primary" onclick="fecharModalDetalhes()">✅ OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Confirmação -->
+  <div class="modal-backdrop" id="modalConfirmacao">
+    <div class="modal" style="width: 520px;">
+      <div class="modal-header">
+        <h3 id="modalConfTitulo">Confirmar Exclusão</h3>
+        <button class="modal-close" onclick="fecharModalConfirmacao()">×</button>
+      </div>
+      <div class="modal-body" id="modalConfCorpo"></div>
+      <div style="display:flex; justify-content:flex-end; gap: var(--space-3); margin-top: var(--space-6);">
+        <button class="btn" onclick="fecharModalConfirmacao()">Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarExcluir">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
