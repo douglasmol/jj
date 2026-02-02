@@ -72,7 +72,7 @@ Este projeto está pronto para ser hospedado no GitHub Pages:
 1. No seu repositório, vá em **Settings → Pages**
 2. Em **Source**, selecione a branch principal (main/master)
 3. Salve e aguarde alguns minutos
-4. Seu site estará disponível em: `https://seu-usuario.github.io/jj/`
+4. Seu site estará disponível em: `https://seu-usuario.github.io/nome-do-repositorio/`
 
 ## 🎨 Características
 
